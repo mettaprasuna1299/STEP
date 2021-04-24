@@ -29,7 +29,6 @@ for (let i = 0; i < buttons.length; i++) {
         document.querySelector('.result').textContent = x / y;
       });
     } else {
-      buttons[i].value === '+';
       document.querySelector('.change').textContent = '+';
       document.querySelector('.equal').addEventListener('click', function () {
         document.querySelector('.result').textContent = x + y;
