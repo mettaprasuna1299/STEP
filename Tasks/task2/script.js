@@ -30,7 +30,7 @@ const account4 = {
   owner: 'Sarah Smith',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
-  pin: 4444,
+  pin: 4444, 
 };
 
 const accounts = [account1, account2, account3, account4];
