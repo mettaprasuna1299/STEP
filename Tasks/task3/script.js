@@ -5,6 +5,7 @@ const btnCreate = document.querySelector('.create');
 const overlay = document.querySelector('.overlay');
 let form = document.querySelector('.formclass');
 
+//fetch the data
 const values = function () {
   fetch('db.json')
     .then(response => response.json())
@@ -13,8 +14,9 @@ const values = function () {
       return render(json.posts);
     });
 };
-values();
+values();   //function call
 const render = function (data) {
+  //find the unique user id's (we use id's in "create")
   let id = new Set();
   for (const i in data) {
     id.add(data[i].userId);
@@ -28,6 +30,8 @@ const render = function (data) {
     container.insertAdjacentHTML('beforeend', html);
   }
   let btnclick = document.querySelectorAll('.title');
+  
+  //title buttons
   for (let i = 0; i < btnclick.length; i++) {
     btnclick[i].addEventListener('click', function (e) {
       e.preventDefault();
@@ -57,7 +61,7 @@ const openDetails = function (btn, input) {
   container.insertAdjacentHTML('afterbegin', details);
   form = document.querySelector('.formclass');
   let closebtn = document.querySelectorAll('.close-button');
-  // console.log(form);
+  // close button- closes the form
   for (let i = 0; i < closebtn.length; i++) {
     closebtn[i].addEventListener('click', function (e) {
       e.preventDefault();
@@ -66,6 +70,8 @@ const openDetails = function (btn, input) {
   }
 };
 
+
+//create button
 btnCreate.addEventListener('click', function (e) {
   e.preventDefault();
   let addTitles = `<div class="adding">
