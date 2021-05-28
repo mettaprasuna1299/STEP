@@ -55,18 +55,6 @@ body {
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
-.adding {
-  border: 2px solid rgb(27, 29, 28);
-  padding: 2em;
-  width: 400px;
-  text-align: left;
-  background: #fff;
-  position: fixed;
-  top: 60%;
-  left: 80%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-}
 .close-button {
   position: absolute;
   top: 20px;
@@ -79,12 +67,55 @@ body {
   cursor: pointer;
   transform: translate(0%, -50%);
 }
-.closecreate {
+.formforcreate {
+  padding: 2em;
+  width: 400px;
+  text-align: left;
+  background: rgb(168, 158, 158);
+  position: fixed;
+  top: 48%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  margin: 4px 0;
+  opacity: 0.75;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 20px;
+  text-decoration: none; /* remove underline from anchors */
+}
+
+.create {
+  border-radius: 0.5rem;
+  border-color: #56d86c;
+  padding: 1rem 1rem;
+  background: linear-gradient(to left, #56d86c, #7af39e);
+}
+
+.close-create {
   position: absolute;
-  bottom: 40px;
-  right: 20px;
+  bottom: 0.5%;
+  right: 15%;
   transition: all 200ms;
-  font-size: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  transform: translate(0%, -50%);
+}
+.add-button {
+  position: absolute;
+  bottom: 0.5%;
+  right: 30%;
+  transition: all 200ms;
+  font-size: 15px;
   font-weight: bold;
   text-decoration: none;
   color: #333;
@@ -99,10 +130,4 @@ body {
   padding: 10px 0;
   display: flex;
   justify-content: flex-end;
-}
-.create {
-  border-radius: 0.5rem;
-  border-color: #56d86c;
-  padding: 1rem 1rem;
-  background: linear-gradient(to left, #56d86c, #7af39e);
 }
