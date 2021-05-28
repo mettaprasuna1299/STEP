@@ -89,19 +89,22 @@ btnCreate.addEventListener('click', function (e) {
   let btnAddcreate = document.querySelector('.add-button');
   btnAddcreate.addEventListener('click', function (e) {
     e.preventDefault();
-    const posts = fetch(' http://localhost:3000/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        title: form_title.value,
-        body: form_body.value,
-        userId: Number(form_userId.value),
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then(response => response.json())
-      .then(json => console.log(json));
+    //empty fields are not allowed
+    if (form_userId.value && form_title.value && form_body.value) {
+      fetch(' http://localhost:3000/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: form_title.value,
+          body: form_body.value,
+          userId: Number(form_userId.value),
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then(response => response.json())
+        .then(json => console.log(json));
+    }
   });
   //close the create form
   btncloseCreate.addEventListener('click', function (e) {
