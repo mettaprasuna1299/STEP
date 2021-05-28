@@ -5,33 +5,27 @@ const btnCreate = document.querySelector('.create');
 const overlay = document.querySelector('.overlay');
 let form = document.querySelector('.formclass');
 
-//fetch the data
+//fetch data
 const values = function () {
-  fetch('db.json')
+  fetch(' http://localhost:3000/posts')
     .then(response => response.json())
     .then(function (json) {
-      // console.log(json.posts);
-      return render(json.posts);
+      //console.log(json);
+
+      return render(json);
     });
 };
-values();   //function call
+values();
 const render = function (data) {
-  //find the unique user id's (we use id's in "create")
-  let id = new Set();
-  for (const i in data) {
-    id.add(data[i].userId);
-  }
-  console.log(id);
   container.innerHTML = '';
+  //display titles- buttons
   for (const [i, posts] of data.entries()) {
     let html = `<div class="left">
 <button class="title">${posts.title}</button>
 </div>`;
     container.insertAdjacentHTML('beforeend', html);
   }
-  let btnclick = document.querySelectorAll('.title');
-  
-  //title buttons
+    let btnclick = document.querySelectorAll('.title');
   for (let i = 0; i < btnclick.length; i++) {
     btnclick[i].addEventListener('click', function (e) {
       e.preventDefault();
@@ -43,6 +37,7 @@ const render = function (data) {
     });
   }
 };
+//display details of title
 
 const openDetails = function (btn, input) {
   let details = `
@@ -53,15 +48,13 @@ const openDetails = function (btn, input) {
             <b>ID:</b><label>${input.id}</label> </br>
             <b>Title:</b><label>${input.title}</label> </br>
             <b>Body:</b><label>${input.body}</label> </br></form>
-            <div class="close">
             <button class="close-button">close </button>
-             </div>
       </div>
       </div>`;
   container.insertAdjacentHTML('afterbegin', details);
   form = document.querySelector('.formclass');
   let closebtn = document.querySelectorAll('.close-button');
-  // close button- closes the form
+  // console.log(form);
   for (let i = 0; i < closebtn.length; i++) {
     closebtn[i].addEventListener('click', function (e) {
       e.preventDefault();
@@ -70,29 +63,51 @@ const openDetails = function (btn, input) {
   }
 };
 
-
-//create button
+//create new resources
 btnCreate.addEventListener('click', function (e) {
   e.preventDefault();
-  let addTitles = `<div class="adding">
-  <form class="form">
+
+  let addTitles = `
+  <form class="formforcreate">
+  <label for="userId">userId</label>
+  <input type="number" id="userId" class="enter_userid" placeholder="Enter number between 1-10">
   <label for="title">Title</label>
-    <input type="text" id="title" name="enter_title" placeholder="Enter title">
-
+    <input type="text" id="title" class="enter_title" placeholder="Enter title">
     <label for="body">body</label>
-    <input type="text" id="body" name="enterbody" placeholder="Enter Body">
-  </form>
-  <div class="closecreate">
-  <button class="close-button">close </button>
-   </div>
-    </div>
+    <input type="text" id="body" class="enter_body" placeholder="Enter Body">
+  <button class="close-create">close </button>
+  <button class="add-button"> Add </button>
+    </form>
   `;
-  container.insertAdjacentHTML('afterbegin', addTitles);
 
-  let btncloseCreate = document.querySelector('.closecreate');
-  let createform = document.querySelector('.adding');
+  container.insertAdjacentHTML('afterbegin', addTitles);
+  let createform = document.querySelector('.formforcreate');
+  let form_userId = document.querySelector('.enter_userid');
+  let form_title = document.querySelector('.enter_title');
+  let form_body = document.querySelector('.enter_body');
+  let btncloseCreate = document.querySelector('.close-create');
+  let btnAddcreate = document.querySelector('.add-button');
+  btnAddcreate.addEventListener('click', function (e) {
+    e.preventDefault();
+    const posts = fetch(' http://localhost:3000/posts', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: form_title.value,
+        body: form_body.value,
+        userId: Number(form_userId.value),
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then(response => response.json())
+      .then(json => console.log(json));
+  });
+  //close the create form
   btncloseCreate.addEventListener('click', function (e) {
     e.preventDefault();
+    console.log('hi');
     createform.style.display = 'none';
   });
 });
+
