@@ -33,7 +33,6 @@ const render = function (data) {
       // console.log('haaaaaa');
 
       openDetails(btnclick[i], data[i]);
-      form.style.display = 'block';
     });
   }
 };
@@ -41,48 +40,80 @@ const render = function (data) {
 
 const openDetails = function (btn, input) {
   let details = `
-      <div class="formclass">
-      <div id="contactForm">
-            <form>
-            <b>UserID:</b><label>${input.userId}</label> </br>
-            <b>ID:</b><label>${input.id}</label> </br>
-            <b>Title:</b><label>${input.title}</label> </br>
-            <b>Body:</b><label>${input.body}</label> </br></form>
-            <button class="close-button">close </button>
-      </div>
-      </div>`;
+       <div  id="contactForm" class="formclass">
+       <form>
+      <b><i><label>${input.title}</label></i></b> </br></br>
+       <label>${input.body}</label> </form></br></br>
+       <label class="username"></label>
+       <button class="close-button">X</button>
+      </div>``;
   container.insertAdjacentHTML('afterbegin', details);
   form = document.querySelector('.formclass');
-  let closebtn = document.querySelectorAll('.close-button');
   // console.log(form);
-  for (let i = 0; i < closebtn.length; i++) {
-    closebtn[i].addEventListener('click', function (e) {
+  fetch(`http://localhost:3000/users/${input.userId}`)
+    .then(function (users) {
+      return users.json();
+    })
+    .then(function (users) {
+      const username = document.querySelector(".username");
+      username.innerHTML = `<b>Username: </b>${users.username}`;
+    })
+  let closebtn = document.querySelector('.close-button');
+    closebtn.addEventListener('click', function (e) {
       e.preventDefault();
       form.style.display = 'none';
     });
-  }
+  
 };
+
+//update UI
+const updateUI = function () {
+  fetch(' http://localhost:3000/posts')
+    .then(response => response.json())
+    .then(function (json) {
+      return render(json);
+    });
+};
+
 
 //create new resources
 btnCreate.addEventListener('click', function (e) {
   e.preventDefault();
-
+//in HtML add restrictions title-100char body-300char maxlength
   let addTitles = `
+  <div class="outerborder">
   <form class="formforcreate">
   <label for="userId">userId</label>
-  <input type="number" id="userId" class="enter_userid" placeholder="Enter number between 1-10">
+  <select id="enter_userId">
+      <option value="1">Bret</option>
+      <option value="2">Antonette</option>
+      <option value="3" >Samantha</option>
+      <option value="4">Karianne</option>
+      <option value="5">Kamren</option>
+      <option value="6">Leopoldo_Corkery</option>
+      <option value="7">Elwyn.Skiles</option>
+      <option value="8">Maxime_Nienow</option>
+      <option value="9">Delphine</option>
+      <option value="10">Moriah.Stanton</option>
+    </select>
   <label for="title">Title</label>
-    <input type="text" id="title" class="enter_title" placeholder="Enter title">
-    <label for="body">body</label>
-    <input type="text" id="body" class="enter_body" placeholder="Enter Body">
-  <button class="close-create">close </button>
-  <button class="add-button"> Add </button>
-    </form>
+  <input type="text" id="title" class="enter_title" placeholder="Enter Title" maxlength="100" required>
+    <p style="color:red; font-size:13px">* Title should be less than 100 charcters</p>
+    <label for="body">Body</label>
+    <input type="text" id="body" class="enter_body" placeholder="Enter Body" maxlength="300" required>
+    <p style="color:red; font-size:13px">* Body should be less than 300 charcters</p>
+
+  </form>
+  <button class="close-create">X</button>
+  <button class="add-button"> Add </but8ton>
+    </div>
   `;
+  
 
   container.insertAdjacentHTML('afterbegin', addTitles);
   let createform = document.querySelector('.formforcreate');
-  let form_userId = document.querySelector('.enter_userid');
+  let form_userId = document.getElementById('enter_userId')
+//console.log(form_userId);
   let form_title = document.querySelector('.enter_title');
   let form_body = document.querySelector('.enter_body');
   let btncloseCreate = document.querySelector('.close-create');
@@ -90,13 +121,27 @@ btnCreate.addEventListener('click', function (e) {
   btnAddcreate.addEventListener('click', function (e) {
     e.preventDefault();
     //empty fields are not allowed
-    if (form_userId.value && form_title.value && form_body.value) {
+    const formUserId=form_userId.value;
+    const formTitle=form_title.value;
+    const formBody=form_body.value;
+  // if(formTitle.length>100){
+  //   alert(`Title length:${formTitle.length} Title should be less than or equal to 100 characters`);
+  // }
+  // if(formBody.length>100){
+  //   alert('Title should be less than or equal to 300 characters');
+  // }
+   if(!(formUserId && formTitle && formBody)){
+     alert('Fill all the fields');
+   }
+  
+    if (formUserId && formTitle && formBody) {
+      console.log("inside loop");
       fetch(' http://localhost:3000/posts', {
         method: 'POST',
         body: JSON.stringify({
           title: form_title.value,
           body: form_body.value,
-          userId: Number(form_userId.value),
+          userId: form_userId.value,
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
@@ -105,11 +150,12 @@ btnCreate.addEventListener('click', function (e) {
         .then(response => response.json())
         .then(json => console.log(json));
     }
+    updateUI();
   });
   //close the create form
   btncloseCreate.addEventListener('click', function (e) {
     e.preventDefault();
-    console.log('hi');
+    //console.log('hi');
     createform.style.display = 'none';
   });
 });
