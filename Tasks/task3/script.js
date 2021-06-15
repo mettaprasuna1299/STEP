@@ -6,7 +6,7 @@ const overlay = document.querySelector('.overlay');
 let form = document.querySelector('.formclass');
 
 //fetch data
-const values = function () {
+const getPostData = function () {
   fetch(' http://localhost:3000/posts')
     .then(response => response.json())
     .then(function (json) {
@@ -15,7 +15,7 @@ const values = function () {
       return render(json);
     });
 };
-values();
+getPostData();
 const render = function (data) {
   container.innerHTML = '';
   //display titles- buttons
