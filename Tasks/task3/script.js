@@ -42,11 +42,13 @@ const openDetails = function (btn, input) {
   let details = `
        <div  id="contactForm" class="formclass">
        <form>
+       <span onclick="document.querySelector('.formclass').style.display='none'" 
+       class="close">&times;</span>
+
       <b><i><label>${input.title}</label></i></b> </br></br>
        <label>${input.body}</label> </form></br></br>
        <label class="username"></label>
-       <button class="close-button">X</button>
-      </div>``;
+      </div>`;
   container.insertAdjacentHTML('afterbegin', details);
   form = document.querySelector('.formclass');
   // console.log(form);
@@ -82,8 +84,12 @@ btnCreate.addEventListener('click', function (e) {
 //in HtML add restrictions title-100char body-300char maxlength
   let addTitles = `
   <div class="outerborder">
+
   <form class="formforcreate">
-  <label for="userId">userId</label>
+  <span onclick="document.querySelector('.outerborder').style.display='none'" 
+  class="close" title="Close Modal">&times;</span>
+
+  <label for="userId">userId</label></br>
   <select id="enter_userId">
       <option value="1">Bret</option>
       <option value="2">Antonette</option>
@@ -96,6 +102,7 @@ btnCreate.addEventListener('click', function (e) {
       <option value="9">Delphine</option>
       <option value="10">Moriah.Stanton</option>
     </select>
+    </br>
   <label for="title">Title</label>
   <input type="text" id="title" class="enter_title" placeholder="Enter Title" maxlength="100" required>
     <p style="color:red; font-size:13px">* Title should be less than 100 charcters</p>
@@ -103,9 +110,9 @@ btnCreate.addEventListener('click', function (e) {
     <input type="text" id="body" class="enter_body" placeholder="Enter Body" maxlength="300" required>
     <p style="color:red; font-size:13px">* Body should be less than 300 charcters</p>
 
-  </form>
-  <button class="close-create">X</button>
+  
   <button class="add-button"> Add </but8ton>
+  </form>
     </div>
   `;
   
