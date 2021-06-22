@@ -4,7 +4,6 @@ const eliminateDefault = document.querySelector('.left');
 const btnCreate = document.querySelector('.create');
 const overlay = document.querySelector('.overlay');
 let form = document.querySelector('.formclass');
-
 //fetch data
 const getPostData = function () {
   fetch(' http://localhost:3000/posts')
@@ -16,6 +15,18 @@ const getPostData = function () {
     });
 };
 getPostData();
+///////////////////////////
+//return- usernames
+// fetch(' http://localhost:3000/users')
+//     .then(response => response.json())
+//     .then(function (json) {
+//       let l=[]
+//       for(let i=0;i<json.length;i++){
+//         l.push(json[i].username)
+//       }
+//       return dropDownCreate(l);
+//     });
+
 const render = function (data) {
   container.innerHTML = '';
   //display titles- buttons
@@ -81,6 +92,7 @@ const updateUI = function () {
 //create new resources
 btnCreate.addEventListener('click', function (e) {
   e.preventDefault();
+  
 //in HtML add restrictions title-100char body-300char maxlength
   let addTitles = `
   <div class="outerborder">
@@ -88,7 +100,6 @@ btnCreate.addEventListener('click', function (e) {
   <form class="formforcreate">
   <span onclick="document.querySelector('.outerborder').style.display='none'" 
   class="close" title="Close Modal">&times;</span>
-
   <label for="userId">userId</label></br>
   <select id="enter_userId">
       <option value="1">Bret</option>
