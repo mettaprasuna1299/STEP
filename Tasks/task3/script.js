@@ -15,17 +15,7 @@ const getPostData = function () {
     });
 };
 getPostData();
-///////////////////////////
-//return- usernames
-// fetch(' http://localhost:3000/users')
-//     .then(response => response.json())
-//     .then(function (json) {
-//       let l=[]
-//       for(let i=0;i<json.length;i++){
-//         l.push(json[i].username)
-//       }
-//       return dropDownCreate(l);
-//     });
+
 
 const render = function (data) {
   container.innerHTML = '';
@@ -40,9 +30,7 @@ const render = function (data) {
   for (let i = 0; i < btnclick.length; i++) {
     btnclick[i].addEventListener('click', function (e) {
       e.preventDefault();
-      // console.log(btnclick[i]);
-      // console.log('haaaaaa');
-
+      
       openDetails(btnclick[i], data[i]);
     });
   }
@@ -62,7 +50,6 @@ const openDetails = function (btn, input) {
       </div>`;
   container.insertAdjacentHTML('afterbegin', details);
   form = document.querySelector('.formclass');
-  // console.log(form);
   fetch(`http://localhost:3000/users/${input.userId}`)
     .then(function (users) {
       return users.json();
@@ -131,7 +118,7 @@ btnCreate.addEventListener('click', function (e) {
   container.insertAdjacentHTML('afterbegin', addTitles);
   let createform = document.querySelector('.formforcreate');
   let form_userId = document.getElementById('enter_userId')
-//console.log(form_userId);
+  //console.log(form_userId);
   let form_title = document.querySelector('.enter_title');
   let form_body = document.querySelector('.enter_body');
   let btncloseCreate = document.querySelector('.close-create');
@@ -142,12 +129,7 @@ btnCreate.addEventListener('click', function (e) {
     const formUserId=form_userId.value;
     const formTitle=form_title.value;
     const formBody=form_body.value;
-  // if(formTitle.length>100){
-  //   alert(`Title length:${formTitle.length} Title should be less than or equal to 100 characters`);
-  // }
-  // if(formBody.length>100){
-  //   alert('Title should be less than or equal to 300 characters');
-  // }
+  
    if(!(formUserId && formTitle && formBody)){
      alert('Fill all the fields');
    }
@@ -173,7 +155,6 @@ btnCreate.addEventListener('click', function (e) {
   //close the create form
   btncloseCreate.addEventListener('click', function (e) {
     e.preventDefault();
-    //console.log('hi');
     createform.style.display = 'none';
   });
 });
