@@ -19,22 +19,16 @@ const INGREDIENT_PRICES={
 const burgerBuilder = (props) => {
 
   const [ingredients, setIngredients] = useState(null);
-  //       salad:0,
-  //       bacon:0,
-  //       cheese:0,
-  //       meat:0
-
-  // });
-  const  [err,setErr] = useState(false);
+  
+  const  [error,setError] = useState(false);
   useEffect(() => {
   axios.get('https://react-my-burger-f29ba-default-rtdb.firebaseio.com/ingredients.json')
     .then(response => {
-     
-      //console.log(response.data);
       setIngredients(response.data);
     })
-    .catch( e => {
-      setErr(true)})
+    .catch( error => {
+      console.log(error);
+      setError(true);})
   }, []);
   const [totalPrice,setTotalPrice] = useState(4);
   const [purchasable, setPurchasable] = useState(false);
@@ -98,9 +92,6 @@ const burgerBuilder = (props) => {
     const priceDeduction=INGREDIENT_PRICES[type];
     const oldPrice=totalPrice;
     const newPrice=oldPrice-priceDeduction;
-    // this.setState({
-    //   totalPrice:newPrice,ingredients:updatedIngredients
-    // });
     setTotalPrice(newPrice);
     setIngredients(updatedIngredients);
     updatePurchaseState(updatedIngredients);
@@ -108,11 +99,9 @@ const burgerBuilder = (props) => {
 
 
   const purchaseHandler=()=>{
-    //this.setState({purchasing:true});
     setPurchasing(true);
   }
   const purchaseCancelhandler = () => {
-    //this.setState({purchasing: false})
     setPurchasing(false);
   }
   const purchaseContinueHandler = () => {
@@ -153,8 +142,9 @@ const burgerBuilder = (props) => {
     
       
     //console.log(loading);
+    console.log(error);
     
-    let burger = err?<p>Ingredients can't be loaded </p>:<Spinner/>
+    let burger = error?<p>Ingredients can't be loaded </p>:<Spinner/>
     if(ingredients){
     burger= (
       <Aux>
