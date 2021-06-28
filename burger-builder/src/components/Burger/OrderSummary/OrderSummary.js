@@ -17,7 +17,7 @@ const orderSummary = (props) =>{
             <ul>
                 {ingredientSummary}
             </ul>
-            <p><strong> Total Price : {props.burgerPrice}</strong></p>
+            <p><strong> Total Price : {props.burgerPrice.toFixed(2)}</strong></p>
             <p>Continue to Checkout?</p>
             <Button btnType="Danger" click={props.purchasecancel}>CANCEL</Button>
             <Button btnType="Success" click={props.purchaseContinue}>CONTINUE</Button>
@@ -26,4 +26,4 @@ const orderSummary = (props) =>{
     
 };
 
-export default React.memo(orderSummary);
+export default orderSummary;
