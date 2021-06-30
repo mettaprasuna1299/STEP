@@ -5,6 +5,7 @@ const btnCreate = document.querySelector('.create');
 const overlay = document.querySelector('.overlay');
 let form = document.querySelector('.formclass');
 //fetch data
+let usersData;
 const getPostData = function () {
   fetch(' http://localhost:3000/posts')
     .then(response => response.json())
@@ -16,7 +17,15 @@ const getPostData = function () {
 };
 getPostData();
 
-
+fetch('http://localhost:3000/users')
+  .then(response => response.json())
+  .then(function(json){
+    return toStoreUserData(json);
+  });
+const toStoreUserData = function(names){
+  usersData=names;
+  //console.log(usersData)
+};
 const render = function (data) {
   container.innerHTML = '';
   //display titles- buttons
@@ -58,11 +67,6 @@ const openDetails = function (btn, input) {
       const username = document.querySelector(".username");
       username.innerHTML = `<b>Username: </b>${users.username}`;
     })
-  let closebtn = document.querySelector('.close-button');
-    closebtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      form.style.display = 'none';
-    });
   
 };
 
@@ -74,11 +78,11 @@ const updateUI = function () {
       return render(json);
     });
 };
-
-
+let selectOptions;
 //create new resources
 btnCreate.addEventListener('click', function (e) {
   e.preventDefault();
+  onclick="selectOptions()";
   
 //in HtML add restrictions title-100char body-300char maxlength
   let addTitles = `
@@ -88,18 +92,7 @@ btnCreate.addEventListener('click', function (e) {
   <span onclick="document.querySelector('.outerborder').style.display='none'" 
   class="close" title="Close Modal">&times;</span>
   <label for="userId">userId</label></br>
-  <select id="enter_userId">
-      <option value="1">Bret</option>
-      <option value="2">Antonette</option>
-      <option value="3" >Samantha</option>
-      <option value="4">Karianne</option>
-      <option value="5">Kamren</option>
-      <option value="6">Leopoldo_Corkery</option>
-      <option value="7">Elwyn.Skiles</option>
-      <option value="8">Maxime_Nienow</option>
-      <option value="9">Delphine</option>
-      <option value="10">Moriah.Stanton</option>
-    </select>
+  <select id="enter_userId" onClick="selectOptions(usersData);"></select>
     </br>
   <label for="title">Title</label>
   <input type="text" id="title" class="enter_title" placeholder="Enter Title" maxlength="100" required>
@@ -113,10 +106,22 @@ btnCreate.addEventListener('click', function (e) {
   </form>
     </div>
   `;
-  
-
+  let count=0;
+  selectOptions = (usersData) => {
+    if(count==0){
+      for(let i=0;i<usersData.length;i++){
+        //console.log(p[i]);
+        let option = usersData[i].username;
+        let element = document.createElement("option");
+        element.textContent = option;
+        element.value= usersData[i].id;
+        document.getElementById("enter_userId").appendChild(element);
+      }
+      count=count+1;
+    }
+  }
   container.insertAdjacentHTML('afterbegin', addTitles);
-  let createform = document.querySelector('.formforcreate');
+  //let createform = document.querySelector('.formforcreate');
   let form_userId = document.getElementById('enter_userId')
   //console.log(form_userId);
   let form_title = document.querySelector('.enter_title');
@@ -153,9 +158,6 @@ btnCreate.addEventListener('click', function (e) {
     updateUI();
   });
   //close the create form
-  btncloseCreate.addEventListener('click', function (e) {
-    e.preventDefault();
-    createform.style.display = 'none';
-  });
+
 });
 
