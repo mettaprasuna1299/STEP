@@ -3,7 +3,17 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import {Route} from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 
-const getIngredients= (props) =>{
+
+const checkout = (props) => {
+    console.log(props);
+    const [ingredients, setIngredients] = useState({
+        salad:0,
+        meat:0,
+        bacon:0,
+        cheese:0
+    });
+    const [totalPrice, setTotalPrice]= useState(0);
+    const getIngredients= () =>{
         const query =new URLSearchParams(props.location.search);
         const ingredient={}
         let price=0;
@@ -15,11 +25,15 @@ const getIngredients= (props) =>{
             ingredient[param[0]]=+param[1];
             }
         }
-        return [ingredient, price];
+       setIngredients(ingredient);
+       setTotalPrice(price);
         
-    }
-const checkout = (props) => {
-    const [ingredients, totalPrice] = getIngredients(props);
+    };
+    useEffect(()=>{
+        getIngredients();
+    },[]);
+
+
 
     const checkoutCancelHandler = () => {
         //console.log("cancelled");
